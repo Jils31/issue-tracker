@@ -1,0 +1,17 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: tracker
+  namespace: issue-tracker
+spec:
+  ingressClassName: nginx
+  rules:
+    - host: tracker.local
+      http:
+        paths:
+          - path: /api
+            pathType: Prefix
+            backend: { service: { name: tracker-backend-v2, port: { number: 80 } } }
+          - path: /
+            pathType: Prefix
+            backend: { service: { name: tracker-frontend, port: { number: 80 } } }

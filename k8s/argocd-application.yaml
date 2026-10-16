@@ -1,0 +1,25 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: issue-tracker
+  namespace: argocd
+spec:
+  project: default
+  source:
+    repoURL: https://github.com/Jils31/DevOps.git
+    targetRevision: main
+    path: Final DevOps Project/helm/issue-tracker
+    helm:
+      releaseName: tracker
+      valueFiles: [values.yaml]
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: issue-tracker
+  syncPolicy:
+    automated: { prune: true, selfHeal: true }
+    syncOptions: [CreateNamespace=true]
+  ignoreDifferences:
+    - group: apps
+      kind: Deployment
+      name: tracker-backend
+      jsonPointers: [/spec/replicas]
