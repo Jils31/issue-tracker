@@ -1,5 +1,7 @@
 # Issue Tracker
 
+[![ci-cd](https://github.com/Jils31/issue-tracker/actions/workflows/ci-cd.yml/badge.svg)](https://github.com/Jils31/issue-tracker/actions/workflows/ci-cd.yml)
+
 A small issue tracker and the full delivery pipeline around it. The app is a React front end,
 a FastAPI back end and PostgreSQL. It runs locally with Docker Compose, gets built, tested and
 scanned in GitHub Actions, is published to GHCR, and deploys to Kubernetes with Helm. Terraform
