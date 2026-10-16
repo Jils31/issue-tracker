@@ -10,7 +10,7 @@ cluster in sync with this repo.
 git push ──> GitHub Actions ──> pytest, vite build
                                docker build backend + frontend
                                trivy (fail on HIGH/CRITICAL)
-                               push ghcr.io/<owner>/issue-tracker-{backend,frontend}:<sha>
+                               push ghcr.io/<owner>/issue-tracker/{backend,frontend}:<sha>
                                helm upgrade --install on kind, smoke test
 
 browser ──> Ingress ──┬── /      frontend (nginx, React bundle)
@@ -115,8 +115,8 @@ Only `GITHUB_TOKEN` is used. Nothing long-lived is stored in the repository or i
 ```bash
 kubectl apply -f k8s/namespace.yaml
 helm upgrade --install tracker helm/issue-tracker \
-  --set image.backend=ghcr.io/<owner>/issue-tracker-backend \
-  --set image.frontend=ghcr.io/<owner>/issue-tracker-frontend \
+  --set image.backend=ghcr.io/<owner>/issue-tracker/backend \
+  --set image.frontend=ghcr.io/<owner>/issue-tracker/frontend \
   --set image.tag=<sha> --set image.pullPolicy=IfNotPresent --set image.pullSecret=ghcr
 kubectl -n issue-tracker get pods,svc,ingress,hpa,pvc
 helm list -n issue-tracker

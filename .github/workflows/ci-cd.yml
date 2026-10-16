@@ -68,7 +68,7 @@ jobs:
         run: |
           echo "tag=${GITHUB_SHA::7}" >> "$GITHUB_OUTPUT"
           echo "owner=${GITHUB_REPOSITORY_OWNER,,}" >> "$GITHUB_OUTPUT"
-          echo "image=ghcr.io/${GITHUB_REPOSITORY_OWNER,,}/issue-tracker-${{ matrix.service }}" >> "$GITHUB_OUTPUT"
+          echo "image=ghcr.io/${GITHUB_REPOSITORY_OWNER,,}/issue-tracker/${{ matrix.service }}" >> "$GITHUB_OUTPUT"
       - uses: docker/setup-buildx-action@v3
       - uses: docker/build-push-action@v6
         with:
@@ -125,8 +125,8 @@ jobs:
             --docker-server=ghcr.io --docker-username=${{ github.actor }} --docker-password=${{ secrets.GITHUB_TOKEN }}
       - run: |
           helm upgrade --install tracker helm/issue-tracker \
-            --set image.backend=ghcr.io/${{ needs.images.outputs.owner }}/issue-tracker-backend \
-            --set image.frontend=ghcr.io/${{ needs.images.outputs.owner }}/issue-tracker-frontend \
+            --set image.backend=ghcr.io/${{ needs.images.outputs.owner }}/issue-tracker/backend \
+            --set image.frontend=ghcr.io/${{ needs.images.outputs.owner }}/issue-tracker/frontend \
             --set image.tag=${{ needs.images.outputs.tag }} \
             --set image.pullPolicy=IfNotPresent --set image.pullSecret=ghcr \
             --set ingress.enabled=false --set backend.hpa.enabled=false \
